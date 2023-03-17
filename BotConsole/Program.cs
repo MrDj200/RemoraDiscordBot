@@ -59,6 +59,7 @@ namespace BotConsole
                 .AddDiscordGateway(_ => botToken)
                 .AddResponder<PingPongResponder>()
                 .AddResponder<TwitterResponder>()
+                .AddResponder<RockAndStoneResponder>()
                 .Configure<DiscordGatewayClientOptions>(g => g.Intents |= GatewayIntents.MessageContents | GatewayIntents.GuildPresences)
                 .AddLogging(loggingBuilder =>
                 {
@@ -70,7 +71,7 @@ namespace BotConsole
 
             var runResult = await gatewayClient.RunAsync(cancellationSource.Token);
 
-            var log = services.GetRequiredService<ILogger<Program>>();
+            var log = services.GetRequiredService<ILogger<Program>>();            
 
             if (!runResult.IsSuccess)
             {
