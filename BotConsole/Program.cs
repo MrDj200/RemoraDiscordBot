@@ -16,6 +16,8 @@ namespace BotConsole
 
 #if DEBUG
             Console.WriteLine("STARTING IN DEBUG MODE!!!!!!!!!");
+#else
+            Console.WriteLine("Starting in Release mode!");
 #endif
             try
             {
