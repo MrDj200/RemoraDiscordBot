@@ -13,6 +13,10 @@ namespace BotConsole
 
         static void Main(string[] args)
         {
+
+#if DEBUG
+            Console.WriteLine("STARTING IN DEBUG MODE!!!!!!!!!");
+#endif
             try
             {
                 MainAsync(args).Wait();
