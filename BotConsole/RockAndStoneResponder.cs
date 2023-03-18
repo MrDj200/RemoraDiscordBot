@@ -9,10 +9,17 @@ namespace BotConsole
 {
     internal class RockAndStoneResponder : IResponder<IMessageCreate>
     {
+
+        static string nitradescription = @"<:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024>
+THERE'S NITRA OVA HERE
+<:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024>";
+
         private readonly IDiscordRestChannelAPI _channelAPI;
-        public RockAndStoneResponder(IDiscordRestChannelAPI channelAPI)
+        private readonly DRGMessageProvider _drg;
+        public RockAndStoneResponder(IDiscordRestChannelAPI channelAPI, DRGMessageProvider drg)
         {
             _channelAPI = channelAPI;
+            _drg = drg;
         }
 
         public async Task<Result> RespondAsync(IMessageCreate gatewayEvent, CancellationToken ct = default)
@@ -26,11 +33,15 @@ namespace BotConsole
 
             if (gatewayEvent.Content.ToLower().Contains("rock and stone"))
             {
-                embed = new Embed(Description: "FOR ROCK AND STONE!", Colour: Color.Purple);
+                embed = new Embed(Description: _drg.RandomRockResponse(), Colour: Color.Purple);
             }
             else if (gatewayEvent.Content.ToLower().Contains("nitra"))
             {
-                embed = new Embed(Description: "THERE'S NITRA OVER HERE!", Colour: Color.DarkRed);
+                embed = new Embed
+                (
+                    Description: _drg.RandomNitraResponse(),
+                    Colour: Color.DarkRed
+                );
             }
             else
             {
