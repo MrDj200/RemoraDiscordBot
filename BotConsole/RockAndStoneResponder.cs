@@ -24,13 +24,11 @@ THERE'S NITRA OVA HERE
 
         public async Task<Result> RespondAsync(IMessageCreate gatewayEvent, CancellationToken ct = default)
         {
-            Embed embed;
-
             if (gatewayEvent.Author.IsBot.HasValue && gatewayEvent.Author.IsBot.Value || gatewayEvent.WebhookID.HasValue)
             {
                 return Result.FromSuccess();
             }
-
+            Embed embed;
             if (gatewayEvent.Content.ToLower().Contains("rock and stone"))
             {
                 embed = new Embed(Description: _drg.RandomRockResponse(), Colour: Color.Purple);
@@ -43,6 +41,14 @@ THERE'S NITRA OVA HERE
                     Colour: Color.DarkRed
                 );
             }
+            else if (gatewayEvent.Content.ToLower().Contains("we're rich") || gatewayEvent.Content.ToLower().Contains("we are rich"))
+            {
+                embed = new Embed
+                (
+                    Description: "We're Rich!",
+                    Colour: Color.Gold
+                );
+            }
             else
             {
                 return Result.FromSuccess();
@@ -50,7 +56,7 @@ THERE'S NITRA OVA HERE
 
             return (Result)await _channelAPI.CreateMessageAsync
             (
-            gatewayEvent.ChannelID,
+                gatewayEvent.ChannelID,
                 embeds: new[] { embed },
                 ct: ct
             );
