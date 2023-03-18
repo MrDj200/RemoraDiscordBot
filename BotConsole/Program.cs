@@ -57,7 +57,6 @@ namespace BotConsole
 
             var services = new ServiceCollection()
                 .AddDiscordGateway(_ => botToken)
-                .AddResponder<PingPongResponder>()
                 .AddResponder<TwitterResponder>()
                 .AddResponder<RockAndStoneResponder>()
                 .AddSingleton<DRGMessageProvider>()
