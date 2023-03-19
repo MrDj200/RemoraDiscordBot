@@ -49,6 +49,14 @@ THERE'S NITRA OVA HERE
                     Colour: Color.Gold
                 );
             }
+            else if (gatewayEvent.Content.ToLower().Contains("stone"))
+            {
+                embed = new Embed
+                (
+                    Description: _drg.RandomStoneResponse(),
+                    Colour: Color.Gray
+                );
+            }
             else
             {
                 return Result.FromSuccess();

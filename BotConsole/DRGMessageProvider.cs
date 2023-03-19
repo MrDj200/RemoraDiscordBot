@@ -50,6 +50,14 @@
             "By the Beard"
         };
 
+        int _latStoneResponseIndex = -1;
+        public List<string> StoneResponses { get; } = new List<string>
+        {
+            "Consider this: Legally speaking, rocking is more legal than stoning!",
+            "STONE",
+            "ROCK"
+        };
+
 
         public DRGMessageProvider()
         {
@@ -58,6 +66,7 @@
 
         public string RandomRockResponse() => RockyResponses[randomListIndex(RockyResponses, _lastRockyResponseIndex)];
         public string RandomNitraResponse() => NitraResponses[randomListIndex(NitraResponses, _lastNitraResponses)];
+        public string RandomStoneResponse() => StoneResponses[randomListIndex(StoneResponses, _latStoneResponseIndex)];
 
         private int randomListIndex(List<string> _list, int _oldIndex = -1)
         {
