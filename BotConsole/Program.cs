@@ -54,7 +54,11 @@ namespace BotConsole
             };
 
             var botToken = args[0];
-
+            if (botToken == null)
+            {
+                Console.WriteLine("NO BOT TOKEN GIVEN IN PARAMETER!");
+                return;
+            }
             var services = new ServiceCollection()
                 .AddDiscordGateway(_ => botToken)
                 .AddResponder<TwitterResponder>()
