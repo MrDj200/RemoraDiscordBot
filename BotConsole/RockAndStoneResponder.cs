@@ -29,7 +29,8 @@ THERE'S NITRA OVA HERE
                 return Result.FromSuccess();
             }
             Embed embed;
-            if (gatewayEvent.Content.ToLower().Contains("rock and stone"))
+            string msg = gatewayEvent.Content.ToLower();
+            if (msg.Contains("rock and stone"))
             {
                 embed = new Embed
                 (
@@ -37,7 +38,7 @@ THERE'S NITRA OVA HERE
                     Colour: Color.Purple
                 );
             }
-            else if (gatewayEvent.Content.ToLower().Contains("nitra"))
+            else if (msg.Contains("nitra"))
             {
                 embed = new Embed
                 (
@@ -45,7 +46,7 @@ THERE'S NITRA OVA HERE
                     Colour: Color.DarkRed
                 );
             }
-            else if (gatewayEvent.Content.ToLower().Contains("we're rich") || gatewayEvent.Content.ToLower().Contains("we are rich"))
+            else if (msg.Contains("we're rich", "we are rich"))
             {
                 embed = new Embed
                 (
@@ -54,7 +55,7 @@ THERE'S NITRA OVA HERE
                     Thumbnail: new EmbedThumbnail("https://cdn.discordapp.com/emojis/587343470977351695.webp?size=1024&quality=lossless")
                 );
             }
-            else if (gatewayEvent.Content.ToLower().Contains("stone"))
+            else if (msg.Contains("stone"))
             {
                 embed = new Embed
                 (
@@ -62,7 +63,7 @@ THERE'S NITRA OVA HERE
                     Colour: Color.Gray
                 );
             }
-            else if (gatewayEvent.Content.ToLower().Contains("mushroom"))
+            else if (msg.Contains("mushroom"))
             {
                 embed = new Embed
                 (
@@ -71,7 +72,7 @@ THERE'S NITRA OVA HERE
                     Colour: Color.Brown
                 );
             }
-            else if (gatewayEvent.Content.ToLower().Contains("goo sack"))
+            else if (msg.Contains("goo sack"))
             {
                 embed = new Embed
                 (
@@ -79,7 +80,7 @@ THERE'S NITRA OVA HERE
                     Colour: Color.Yellow
                 );
             }
-            else if (gatewayEvent.Content.ToLower().Contains("ebonut"))
+            else if (msg.Contains("ebonut"))
             {
                 embed = new Embed
                 (
