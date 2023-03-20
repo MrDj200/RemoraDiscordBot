@@ -1,7 +1,9 @@
 ﻿using Remora.Discord.API.Abstractions.Gateway.Events;
+using Remora.Discord.API.Abstractions.Objects;
 using Remora.Discord.API.Abstractions.Rest;
 using Remora.Discord.API.Objects;
 using Remora.Discord.Gateway.Responders;
+using Remora.Rest.Core;
 using Remora.Results;
 using System.Drawing;
 
@@ -37,7 +39,7 @@ THERE'S NITRA OVA HERE
             {
                 embed = new Embed
                 (
-                    Description: _drg.RandomNitraResponse(),
+                    Title: _drg.RandomNitraResponse(),
                     Colour: Color.DarkRed
                 );
             }
@@ -45,15 +47,16 @@ THERE'S NITRA OVA HERE
             {
                 embed = new Embed
                 (
-                    Description: "We're Rich!",
-                    Colour: Color.Gold
+                    Title: "We're Rich!",
+                    Colour: Color.Gold,
+                    Thumbnail: new EmbedThumbnail("https://cdn.discordapp.com/emojis/587343470977351695.webp?size=1024&quality=lossless")
                 );
             }
             else if (gatewayEvent.Content.ToLower().Contains("stone"))
             {
                 embed = new Embed
                 (
-                    Description: _drg.RandomStoneResponse(),
+                    Title: _drg.RandomStoneResponse(),
                     Colour: Color.Gray
                 );
             }
@@ -61,14 +64,33 @@ THERE'S NITRA OVA HERE
             {
                 embed = new Embed
                 (
-                    Description: "Mushroom!",
+                    Author: new EmbedAuthor(" . ", IconUrl: "https://deeprockgalactic.wiki.gg/images/d/d2/Mission_control_portrait.png"),
+                    Title: "Mushroom!",
                     Colour: Color.Brown
+                );
+            }
+            else if (gatewayEvent.Content.ToLower().Contains("goo sack"))
+            {
+                embed = new Embed
+                (
+                    Title: _drg.RandomGooSackResponse(),
+                    Colour: Color.Yellow
+                );
+            }
+            else if (gatewayEvent.Content.ToLower().Contains("ebonut"))
+            {
+                embed = new Embed
+                (
+                    Title: "Ebonut!",
+                    Colour: Color.SandyBrown
                 );
             }
             else
             {
                 return Result.FromSuccess();
             }
+
+            embed = AddRandomShit(embed, 10);
 
             return (Result)await _channelAPI.CreateMessageAsync
             (
@@ -77,5 +99,36 @@ THERE'S NITRA OVA HERE
                 ct: ct
             );
         }
+
+        Embed AddRandomShit(Embed embed, int percentage = 10)
+        {
+            var randomVal = new Random().Next(100);
+            Embed newEmbed;
+            if (randomVal >= 100 - percentage)
+            {
+                newEmbed = new Embed
+                (
+                    Title: embed.Title,
+                    Type: embed.Type,
+                    Description: embed.Description,
+                    Timestamp: embed.Timestamp,
+                    Colour: embed.Colour,
+                    Footer: embed.Footer,
+                    Image: embed.Image,
+                    Thumbnail: embed.Thumbnail,
+                    Video: embed.Video,
+                    Provider: embed.Provider,
+                    Author: embed.Author,
+                    Fields: embed.Fields,
+
+                    Url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // TODO: Add more random shit. Don't alway rickroll
+                );
+
+                return newEmbed;
+            }
+
+            return embed;
+        }
+
     }
 }

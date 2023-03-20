@@ -1,4 +1,6 @@
-﻿namespace BotConsole
+﻿using OneOf.Types;
+
+namespace BotConsole
 {
     internal class DRGMessageProvider
     {
@@ -13,7 +15,6 @@
             "Found some Nitra!"
         };
 
-        int _lastRockyResponseIndex = -1;
         public List<string> RockyResponses { get; } = new List<string>
         {
             "Rock on!",
@@ -50,12 +51,18 @@
             "By the Beard"
         };
 
-        int _latStoneResponseIndex = -1;
         public List<string> StoneResponses { get; } = new List<string>
         {
             "Consider this: Legally speaking, rocking is more legal than stoning!",
             "STONE",
             "ROCK"
+        };
+
+        public List<string> GooSackResponses { get; } = new List<string>
+        {
+            "Goo sack!",
+            "It's a goo sack!",
+            "There is goo in the sack!"
         };
 
 
@@ -65,16 +72,17 @@
         }
 
         // TODO: Use List extension for this
+                
+        public string RandomRockResponse() => RockyResponses[randomListIndex(RockyResponses)];
+        public string RandomNitraResponse() => NitraResponses[randomListIndex(NitraResponses)];
+        public string RandomStoneResponse() => StoneResponses[randomListIndex(StoneResponses)];
+        public string RandomGooSackResponse() => GooSackResponses[randomListIndex(GooSackResponses)];
 
-        public string RandomRockResponse() => RockyResponses[randomListIndex(RockyResponses, _lastRockyResponseIndex)];
-        public string RandomNitraResponse() => NitraResponses[randomListIndex(NitraResponses, _lastNitraResponses)];
-        public string RandomStoneResponse() => StoneResponses[randomListIndex(StoneResponses, _latStoneResponseIndex)];
-
-        private int randomListIndex(List<string> _list, int _oldIndex = -1)
+        private int randomListIndex(List<string> _list)
         {
             var _random = new Random();
             int _index = _random.Next(_list.Count);
-            return _index == _oldIndex ? _index + 1 : _index;
+            return _index;
         }
     }
 }
