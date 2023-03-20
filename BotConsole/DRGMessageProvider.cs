@@ -65,12 +65,6 @@ namespace BotConsole
             "There is goo in the sack!"
         };
 
-
-        public DRGMessageProvider()
-        {
-
-        }
-
         // TODO: Use List extension for this
                 
         public string RandomRockResponse() => RockyResponses[randomListIndex(RockyResponses)];

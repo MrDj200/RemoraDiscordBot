@@ -33,7 +33,11 @@ THERE'S NITRA OVA HERE
             Embed embed;
             if (gatewayEvent.Content.ToLower().Contains("rock and stone"))
             {
-                embed = new Embed(Description: _drg.RandomRockResponse(), Colour: Color.Purple);
+                embed = new Embed
+                (
+                    Title: _drg.RandomRockResponse(),
+                    Colour: Color.Purple
+                );
             }
             else if (gatewayEvent.Content.ToLower().Contains("nitra"))
             {
@@ -64,7 +68,7 @@ THERE'S NITRA OVA HERE
             {
                 embed = new Embed
                 (
-                    Author: new EmbedAuthor(" . ", IconUrl: "https://deeprockgalactic.wiki.gg/images/d/d2/Mission_control_portrait.png"),
+                    Author: new EmbedAuthor("Mission Control", IconUrl: "https://deeprockgalactic.wiki.gg/images/d/d2/Mission_control_portrait.png"),
                     Title: "Mushroom!",
                     Colour: Color.Brown
                 );
