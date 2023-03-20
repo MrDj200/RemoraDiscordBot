@@ -61,5 +61,12 @@
             "It's a goo sack!",
             "There is goo in the sack!"
         };
+
+        public List<string> EbonutResponses { get; } = new List<string>
+        {
+            "It's an Ebonut!",
+            "Ebonut!",
+            "Ebonut here!"
+        };
     }
 }

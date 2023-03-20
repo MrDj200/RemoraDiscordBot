@@ -83,7 +83,7 @@ THERE'S NITRA OVA HERE
             {
                 embed = new Embed
                 (
-                    Title: "Ebonut!",
+                    Title: _drg.EbonutResponses.RandomEntry(),
                     Colour: Color.SandyBrown
                 );
             }
