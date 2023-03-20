@@ -1,9 +1,7 @@
 ﻿using Remora.Discord.API.Abstractions.Gateway.Events;
-using Remora.Discord.API.Abstractions.Objects;
 using Remora.Discord.API.Abstractions.Rest;
 using Remora.Discord.API.Objects;
 using Remora.Discord.Gateway.Responders;
-using Remora.Rest.Core;
 using Remora.Results;
 using System.Drawing;
 
@@ -35,7 +33,7 @@ THERE'S NITRA OVA HERE
             {
                 embed = new Embed
                 (
-                    Title: _drg.RandomRockResponse(),
+                    Title: _drg.RockyResponses.RandomEntry(),
                     Colour: Color.Purple
                 );
             }
@@ -43,7 +41,7 @@ THERE'S NITRA OVA HERE
             {
                 embed = new Embed
                 (
-                    Title: _drg.RandomNitraResponse(),
+                    Title: _drg.NitraResponses.RandomEntry(),
                     Colour: Color.DarkRed
                 );
             }
@@ -60,7 +58,7 @@ THERE'S NITRA OVA HERE
             {
                 embed = new Embed
                 (
-                    Title: _drg.RandomStoneResponse(),
+                    Title: _drg.StoneResponses.RandomEntry(),
                     Colour: Color.Gray
                 );
             }
@@ -77,7 +75,7 @@ THERE'S NITRA OVA HERE
             {
                 embed = new Embed
                 (
-                    Title: _drg.RandomGooSackResponse(),
+                    Title: _drg.GooSackResponses.RandomEntry(),
                     Colour: Color.Yellow
                 );
             }

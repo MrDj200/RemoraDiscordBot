@@ -1,10 +1,7 @@
-﻿using OneOf.Types;
-
-namespace BotConsole
+﻿namespace BotConsole
 {
     internal class DRGMessageProvider
     {
-        int _lastNitraResponses = -1;
         public List<string> NitraResponses { get; } = new List<string>
         {
             "There's Nitra ova here!",
@@ -64,19 +61,5 @@ namespace BotConsole
             "It's a goo sack!",
             "There is goo in the sack!"
         };
-
-        // TODO: Use List extension for this
-                
-        public string RandomRockResponse() => RockyResponses[randomListIndex(RockyResponses)];
-        public string RandomNitraResponse() => NitraResponses[randomListIndex(NitraResponses)];
-        public string RandomStoneResponse() => StoneResponses[randomListIndex(StoneResponses)];
-        public string RandomGooSackResponse() => GooSackResponses[randomListIndex(GooSackResponses)];
-
-        private int randomListIndex(List<string> _list)
-        {
-            var _random = new Random();
-            int _index = _random.Next(_list.Count);
-            return _index;
-        }
     }
 }
