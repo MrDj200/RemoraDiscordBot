@@ -64,6 +64,8 @@
 
         }
 
+        // TODO: Use List extension for this
+
         public string RandomRockResponse() => RockyResponses[randomListIndex(RockyResponses, _lastRockyResponseIndex)];
         public string RandomNitraResponse() => NitraResponses[randomListIndex(NitraResponses, _lastNitraResponses)];
         public string RandomStoneResponse() => StoneResponses[randomListIndex(StoneResponses, _latStoneResponseIndex)];

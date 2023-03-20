@@ -57,6 +57,14 @@ THERE'S NITRA OVA HERE
                     Colour: Color.Gray
                 );
             }
+            else if (gatewayEvent.Content.ToLower().Contains("mushroom"))
+            {
+                embed = new Embed
+                (
+                    Description: "Mushroom!",
+                    Colour: Color.Brown
+                );
+            }
             else
             {
                 return Result.FromSuccess();
