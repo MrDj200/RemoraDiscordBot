@@ -1,6 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BotConsole.Commands;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Remora.Commands.Extensions;
 using Remora.Discord.API.Abstractions.Gateway.Commands;
+using Remora.Discord.Commands.Extensions;
+using Remora.Discord.Commands.Services;
 using Remora.Discord.Gateway;
 using Remora.Discord.Gateway.Extensions;
 using Remora.Discord.Gateway.Results;
@@ -59,7 +63,8 @@ namespace BotConsole
                 Console.WriteLine("NO BOT TOKEN GIVEN IN PARAMETER!");
                 return;
             }
-            var services = new ServiceCollection()
+
+            var servicesRaw = new ServiceCollection()
                 .AddDiscordGateway(_ => botToken)
                 .AddResponder<TwitterResponder>()
                 .AddResponder<RockAndStoneResponder>()
@@ -68,14 +73,26 @@ namespace BotConsole
                 .AddLogging(loggingBuilder =>
                 {
                     loggingBuilder.AddConsole();
-                })
-                .BuildServiceProvider();
+                });
+
+            servicesRaw.AddDiscordCommands(true).AddCommandTree()
+                .WithCommandGroup<HttpCatCommands>();
+
+
+            var services = servicesRaw.BuildServiceProvider();
+            var log = services.GetRequiredService<ILogger<Program>>();
+
+        #region SlashCommandStuff?
+            var slashService = services.GetRequiredService<SlashService>();
+            var updateSlash = await slashService.UpdateSlashCommandsAsync(ct: cancellationSource.Token);
+            if (!updateSlash.IsSuccess)
+            {
+                log.LogWarning("Failed to update slash commands: {Reason}", updateSlash.Error.Message);
+            }
+        #endregion
 
             var gatewayClient = services.GetRequiredService<DiscordGatewayClient>();
-
-            var runResult = await gatewayClient.RunAsync(cancellationSource.Token);
-
-            var log = services.GetRequiredService<ILogger<Program>>();            
+            var runResult = await gatewayClient.RunAsync(cancellationSource.Token);                    
 
             if (!runResult.IsSuccess)
             {
