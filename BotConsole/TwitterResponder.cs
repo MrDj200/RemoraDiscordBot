@@ -21,7 +21,8 @@ namespace BotConsole
 
         public async Task<Result> RespondAsync(IMessageCreate gatewayEvent, CancellationToken ct = default)
         {
-            if (gatewayEvent.Author.IsBot.HasValue && gatewayEvent.Author.IsBot.Value || gatewayEvent.WebhookID.HasValue)
+            //if (gatewayEvent.Author.IsBot.HasValue && gatewayEvent.Author.IsBot.Value || gatewayEvent.WebhookID.HasValue)
+            if (gatewayEvent.Author.IsBot is { HasValue: true, Value: true} || gatewayEvent.WebhookID.HasValue)
             {
                 return Result.FromSuccess();
             }
