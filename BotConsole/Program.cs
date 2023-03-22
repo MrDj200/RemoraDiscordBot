@@ -93,7 +93,7 @@ namespace BotConsole
         #endregion
 
             var gatewayClient = services.GetRequiredService<DiscordGatewayClient>();
-            var runResult = await gatewayClient.RunAsync(cancellationSource.Token);                    
+            var runResult = await gatewayClient.RunAsync(cancellationSource.Token);
 
             if (!runResult.IsSuccess)
             {

@@ -81,7 +81,7 @@ namespace BotConsole.Commands
 
 
             return (Result)await _feedbackService.SendContextualMessageAsync(new FeedbackMessage(ugh, _feedbackService.Theme.FaultOrDanger), options: opt);
-        }
+        }        
 
 #if DEBUG
         [Command("cat")]
