@@ -76,7 +76,8 @@ namespace BotConsole
                 });
 
             servicesRaw.AddDiscordCommands(true).AddCommandTree()
-                .WithCommandGroup<HttpCatCommands>();
+                .WithCommandGroup<HttpCatCommands>()
+                .WithCommandGroup<MessageStats>();
 
 
             var services = servicesRaw.BuildServiceProvider();
