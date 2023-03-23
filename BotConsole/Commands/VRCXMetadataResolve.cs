@@ -56,7 +56,6 @@ namespace BotConsole.Commands
                 FinalMessage = $"Found {attachments.Count} attachments on [this message]({messageUrl}), \nbut none of them had any valid MetaData. \nAsk <@165129990424231936> for more info on this!";
             }
 
-
             return (Result)await _feedbackService.SendContextualInfoAsync(FinalMessage);
         }
 

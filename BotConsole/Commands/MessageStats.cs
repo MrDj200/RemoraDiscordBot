@@ -3,6 +3,7 @@ using Remora.Commands.Attributes;
 using Remora.Commands.Groups;
 using Remora.Discord.API.Abstractions.Objects;
 using Remora.Discord.API.Abstractions.Rest;
+using Remora.Discord.Commands.Attributes;
 using Remora.Discord.Commands.Feedback.Messages;
 using Remora.Discord.Commands.Feedback.Services;
 using Remora.Rest.Core;
@@ -27,8 +28,9 @@ namespace BotConsole.Commands
 
         [Command("channel-stats")]
         [Description("Prints out stats for the given channel")]
+        [DiscordDefaultMemberPermissions(DiscordPermission.Administrator)]
         public async Task<IResult> ChannelStats([Description("The channel for which to get the stats")] IChannel channel)
-        {            
+        {
             var messagesResult = await GetAllChannelMessagesAsync(channel.ID, ct: this.CancellationToken);
             if (!messagesResult.IsSuccess)
             {
@@ -60,7 +62,7 @@ namespace BotConsole.Commands
         /// <param name="ct">The cancellation token for this operation.</param>
         /// <returns>A retrieval result which may or may not have succeeded.</returns>
         async Task<Result<IReadOnlyList<IMessage>>> GetAllChannelMessagesAsync(Snowflake channelID, CancellationToken ct = default)
-        {            
+        {
             var result = await _channelAPI.GetChannelMessagesAsync(channelID, limit: 100, ct: ct);
             if (!result.IsSuccess)
             {
