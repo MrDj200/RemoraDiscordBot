@@ -15,6 +15,8 @@ namespace BotConsole
     internal class Program
     {
 
+        private static string _botToken;
+
         static void Main(string[] args)
         {
 
@@ -57,24 +59,17 @@ namespace BotConsole
                 cancellationSource.Cancel();
             };
 
-            var botToken = args[0];
-            if (botToken == null)
+            _botToken = args[0];
+            if (_botToken == null)
             {
                 Console.WriteLine("NO BOT TOKEN GIVEN IN PARAMETER!");
                 return;
             }
 
-            var servicesRaw = new ServiceCollection()
-                .AddDiscordGateway(_ => botToken)
-                .AddResponder<TwitterResponder>()
-                .AddResponder<RockAndStoneResponder>()
-                .AddSingleton<DRGMessageProvider>()
-                .AddSingleton<HttpClient>()
-                .Configure<DiscordGatewayClientOptions>(g => g.Intents |= GatewayIntents.MessageContents | GatewayIntents.GuildPresences)
-                .AddLogging(loggingBuilder =>
-                {
-                    loggingBuilder.AddConsole();
-                });
+            var servicesRaw = ConfigureServices(new ServiceCollection());
+
+            //var servicesRaw = new ServiceCollection()
+
 
             servicesRaw.AddDiscordCommands(true).AddCommandTree()
                 .WithCommandGroup<HttpCatCommands>()
@@ -85,14 +80,14 @@ namespace BotConsole
             var services = servicesRaw.BuildServiceProvider();
             var log = services.GetRequiredService<ILogger<Program>>();
 
-        #region SlashCommandStuff?
+            #region SlashCommandStuff?
             var slashService = services.GetRequiredService<SlashService>();
             var updateSlash = await slashService.UpdateSlashCommandsAsync(ct: cancellationSource.Token);
             if (!updateSlash.IsSuccess)
             {
                 log.LogWarning("Failed to update slash commands: {Reason}", updateSlash.Error.Message);
             }
-        #endregion
+            #endregion
 
             var gatewayClient = services.GetRequiredService<DiscordGatewayClient>();
             var runResult = await gatewayClient.RunAsync(cancellationSource.Token);
@@ -127,6 +122,28 @@ namespace BotConsole
             }
 
             await Task.Delay(-1, cancellationSource.Token);
+        }
+
+        private static IServiceCollection ConfigureServices(IServiceCollection services)
+        {
+
+            services // Discord specific stuff
+                .AddDiscordGateway(_ => _botToken)
+                .AddResponder<TwitterResponder>()
+                .AddResponder<RockAndStoneResponder>()
+                .AddSingleton<DRGMessageProvider>()
+                .Configure<DiscordGatewayClientOptions>(g => g.Intents |= GatewayIntents.MessageContents | GatewayIntents.GuildPresences);
+
+            services // Misc stuff
+                .AddSingleton<HttpClient>();
+
+            services // Logging
+                .AddLogging(loggingBuilder =>
+                {
+                    loggingBuilder.AddConsole();
+                });
+
+            return services;
         }
     }
 
