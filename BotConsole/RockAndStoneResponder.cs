@@ -8,12 +8,7 @@ using System.Drawing;
 namespace BotConsole
 {
     internal class RockAndStoneResponder : IResponder<IMessageCreate>
-    {
-
-        static string nitradescription = @"<:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024>
-THERE'S NITRA OVA HERE
-<:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024><:nitra:406463687923073024>";
-
+    { 
         private readonly IDiscordRestChannelAPI _channelAPI;
         private readonly DRGMessageProvider _drg;
         public RockAndStoneResponder(IDiscordRestChannelAPI channelAPI, DRGMessageProvider drg)
