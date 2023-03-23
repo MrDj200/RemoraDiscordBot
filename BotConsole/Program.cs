@@ -15,7 +15,7 @@ namespace BotConsole
     internal class Program
     {
 
-        private static string _botToken;
+        private static string _botToken = "";
 
         static void Main(string[] args)
         {
@@ -60,7 +60,7 @@ namespace BotConsole
             };
 
             _botToken = args[0];
-            if (_botToken == null)
+            if (string.IsNullOrEmpty(_botToken))
             {
                 Console.WriteLine("NO BOT TOKEN GIVEN IN PARAMETER!");
                 return;
