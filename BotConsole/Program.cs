@@ -69,6 +69,7 @@ namespace BotConsole
                 .AddResponder<TwitterResponder>()
                 .AddResponder<RockAndStoneResponder>()
                 .AddSingleton<DRGMessageProvider>()
+                .AddSingleton<HttpClient>()
                 .Configure<DiscordGatewayClientOptions>(g => g.Intents |= GatewayIntents.MessageContents | GatewayIntents.GuildPresences)
                 .AddLogging(loggingBuilder =>
                 {
@@ -77,7 +78,8 @@ namespace BotConsole
 
             servicesRaw.AddDiscordCommands(true).AddCommandTree()
                 .WithCommandGroup<HttpCatCommands>()
-                .WithCommandGroup<MessageStats>();
+                .WithCommandGroup<MessageStats>()
+                .WithCommandGroup<VRCXMetadataResolve>();
 
 
             var services = servicesRaw.BuildServiceProvider();
