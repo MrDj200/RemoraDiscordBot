@@ -83,7 +83,7 @@ namespace BotConsole.Commands
             return (Result)await _feedbackService.SendContextualMessageAsync(new FeedbackMessage(ugh, _feedbackService.Theme.FaultOrDanger), options: opt);
         }        
 
-#if DEBUG
+
         [Command("cat")]
         [Description("Posts a cat image that represents the given error code.")]
         public async Task<IResult> PostHttpCatAsync([Description("The HTTP code.")] int httpCode)
@@ -101,7 +101,6 @@ namespace BotConsole.Commands
         {
             var embedImage = new EmbedImage($"https://http.cat/{httpCode}");
             var embed = new Embed(Colour: _feedbackService.Theme.Secondary, Image: embedImage);
-            
             return (Result)await _feedbackService.SendContextualEmbedAsync(embed, ct: this.CancellationToken);
         }
 
@@ -139,6 +138,5 @@ namespace BotConsole.Commands
         {
             return ((value - fromSource) / (toSource - fromSource) * (toTarget - fromTarget)) + fromTarget;
         }
-#endif
     }
 }
