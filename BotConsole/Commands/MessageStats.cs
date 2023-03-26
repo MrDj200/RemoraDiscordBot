@@ -41,7 +41,7 @@ namespace BotConsole.Commands
 
             StringBuilder sb = new();
 
-            sb.AppendLine($"Total messages in <#{channel.ID}>: {messages.Count()}");
+            sb.AppendLine($"Total messages in <#{channel.ID}>: {messages.Count}");
             foreach (var authorGroup in authorGroups)
             {
                 sb.Append($"<@{authorGroup.Key.ID}>: {authorGroup.Count()}");
