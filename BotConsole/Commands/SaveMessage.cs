@@ -33,20 +33,21 @@ namespace BotConsole.Commands
             _interactionContext = interactionContext;
         }
 
-        // TODO: Button on messages to save image to database (possibly to disk) and then command to retrieve saved stuff
-
         [Command("Save Message")]
         [CommandType(ApplicationCommandType.Message)]
         [Ephemeral]
         public async Task<IResult> SaveMessageAction(IMessage message)
         {
-            _logger.LogDebug("STARTING SAVE MESSAGE STUFF!###################################");
             var model = SavedMessageModel.FromMessage(message, _interactionContext);
-            await _dbContext.SavedMessages.AddAsync(model, this.CancellationToken);
-            await _dbContext.SaveChangesAsync();
-            _logger.LogDebug("FINISHED SAVE MESSAGE STUFF!###################################");
 
-            return await _feedbackService.SendContextualAsync("Ahhhhhh", ct: this.CancellationToken);
+            var isDupe = await _dbContext.SavedMessages.Where(x => x.InvokerID == model.InvokerID && x.GuildID == model.GuildID && x.MessageID == model.MessageID).AnyAsync();
+            if (!isDupe)
+            {
+                await _dbContext.SavedMessages.AddAsync(model, this.CancellationToken);
+                await _dbContext.SaveChangesAsync();
+                return await _feedbackService.SendContextualSuccessAsync($"[Message]({model.MessageUrl}) was saved to your list!", ct: this.CancellationToken);
+            }
+            return await _feedbackService.SendContextualErrorAsync($"[Message]({model.MessageUrl}) was already in your list!", ct: this.CancellationToken);
         }
 
         [Command("retrieve")]
@@ -56,18 +57,54 @@ namespace BotConsole.Commands
         public async Task<IResult> RetrieveSavedMessages()
         {
             _interactionContext.TryGetUserID(out Snowflake? userID);
-            var messages = await _dbContext.SavedMessages.Where(x => x.InvokerID == userID.ToString()).ToListAsync();
+
+            return await RetrieveSavedMessagesOf(new PartialUser() { ID = userID.AsOptional() });
+            //var messages = await _dbContext.SavedMessages.Where(x => x.InvokerID == userID.ToString()).ToListAsync();
+            //StringBuilder sb = new();
+            //int i = 0;
+            //foreach (var msg in messages)
+            //{
+            //    sb.AppendLine($"{i + 1}: [THIS]({msg.MessageUrl}) by <@{msg.AuthorID}> in <#{msg.ChannelID}>");
+            //    i++;
+            //}
+
+            //Embed embed = new($"You have {messages.Count} saved messages!", Description: sb.ToString());
+
+            //return await _feedbackService.SendContextualEmbedAsync(embed, ct: this.CancellationToken);
+        }
+
+        [Command("spy")]
+        [Description("Retrieves your saved messages")]
+        [CommandType(ApplicationCommandType.ChatInput)]
+        [DiscordDefaultMemberPermissions(DiscordPermission.Administrator)]
+        [Ephemeral]
+        public async Task<IResult> RetrieveSavedMessagesOf([Description("The user of which to retrieve the messages")] IPartialUser user)
+        {
+            var messages = await _dbContext.SavedMessages.Where(x => x.InvokerID == user.ID.ToString()).ToListAsync();
             StringBuilder sb = new();
             int i = 0;
             foreach (var msg in messages)
             {
-                sb.AppendLine($"[{i + 1}]({msg.MessageUrl})");
+                sb.AppendLine($"{i + 1}: [THIS]({msg.MessageUrl}) by <@{msg.AuthorID}> in <#{msg.ChannelID}>");
                 i++;
             }
 
-            Embed embed = new($"You ( <@{userID}> ) have {messages.Count} saved messages!", Description: sb.ToString());
+            Embed embed = new($"{user.Username} has {messages.Count} saved messages!", Description: sb.ToString());
 
             return await _feedbackService.SendContextualEmbedAsync(embed, ct: this.CancellationToken);
+        }
+
+        [Command("drop")]
+        [Description("Deletes your saved messages (ALL OF THEM ATM)")]
+        [CommandType(ApplicationCommandType.ChatInput)]
+        [Ephemeral]
+        public async Task<IResult> DropAllMessages()
+        {
+            _interactionContext.TryGetUserID(out Snowflake? userID);
+            var messages = await _dbContext.SavedMessages.Where(x => x.InvokerID == userID.ToString()).ToListAsync();
+            _dbContext.SavedMessages.RemoveRange(messages);
+            var number = await _dbContext.SaveChangesAsync();
+            return await _feedbackService.SendContextualSuccessAsync($"Successfully deleted {number} messages!");
         }
     }
 }
