@@ -20,31 +20,31 @@ namespace BotConsole.Database
         {
             var args = Environment.GetCommandLineArgs();
 
-#if DEBUG
+//#if DEBUG
             _logger?.LogWarning("Using SQLite! (DEBUG)");
             optionsBuilder.UseSqlite(_fallBackSqlite);
-#else
-            if (args.Length >= 2)
-            {
-                //var serverVersion = ServerVersion.AutoDetect(args[1]);
-                var serverVersion = ServerVersion.Parse("8.0.22-mysql");
-                if (serverVersion != null)
-                {
-                    _logger?.LogWarning("Using MySql!");
-                    optionsBuilder.UseMySql(args[1], serverVersion);
-                }
-                else
-                {
-                    _logger?.LogWarning("Server Version is null! Using SQLite! (Fallback)");
-                    optionsBuilder.UseSqlite(_fallBackSqlite);
-                }
-            }
-            else
-            {
-                _logger?.LogWarning("Using SQLite! (Fallback)");
-                optionsBuilder.UseSqlite(_fallBackSqlite);
-            }
-#endif
+//#else
+//            if (args.Length >= 2)
+//            {
+//                //var serverVersion = ServerVersion.AutoDetect(args[1]);
+//                var serverVersion = ServerVersion.Parse("8.0.22-mysql");
+//                if (serverVersion != null)
+//                {
+//                    _logger?.LogWarning("Using MySql!");
+//                    optionsBuilder.UseMySql(args[1], serverVersion);
+//                }
+//                else
+//                {
+//                    _logger?.LogWarning("Server Version is null! Using SQLite! (Fallback)");
+//                    optionsBuilder.UseSqlite(_fallBackSqlite);
+//                }
+//            }
+//            else
+//            {
+//                _logger?.LogWarning("Using SQLite! (Fallback)");
+//                optionsBuilder.UseSqlite(_fallBackSqlite);
+//            }
+//#endif
         }
 
         private async Task DoMigrationsAsync()
