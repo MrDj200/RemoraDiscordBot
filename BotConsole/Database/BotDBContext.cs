@@ -26,7 +26,8 @@ namespace BotConsole.Database
 #else
             if (args.Length >= 2)
             {
-                var serverVersion = ServerVersion.AutoDetect(args[1]);
+                //var serverVersion = ServerVersion.AutoDetect(args[1]);
+                var serverVersion = ServerVersion.Parse("8.0.22-mysql");
                 if (serverVersion != null)
                 {
                     _logger?.LogWarning("Using MySql!");
