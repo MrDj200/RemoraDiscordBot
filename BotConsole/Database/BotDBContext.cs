@@ -21,7 +21,7 @@ namespace BotConsole.Database
             var args = Environment.GetCommandLineArgs();
 
 #if DEBUG
-            _logger?.LogInformation("Using SQLite! (DEBUG)");
+            _logger?.LogWarning("Using SQLite! (DEBUG)");
             optionsBuilder.UseSqlite(_fallBackSqlite);
 #else
             if (args.Length >= 2)
@@ -29,18 +29,18 @@ namespace BotConsole.Database
                 var serverVersion = ServerVersion.AutoDetect(args[1]);
                 if (serverVersion != null)
                 {
-                    _logger?.LogInformation("Using MySql!");
+                    _logger?.LogWarning("Using MySql!");
                     optionsBuilder.UseMySql(args[1], serverVersion);
                 }
                 else
                 {
-                    _logger?.LogInformation("Using SQLite! (Fallback)");
+                    _logger?.LogWarning("Server Version is null! Using SQLite! (Fallback)");
                     optionsBuilder.UseSqlite(_fallBackSqlite);
                 }
             }
             else
             {
-                _logger?.LogInformation("Using SQLite! (Fallback)");
+                _logger?.LogWarning("Using SQLite! (Fallback)");
                 optionsBuilder.UseSqlite(_fallBackSqlite);
             }
 #endif
