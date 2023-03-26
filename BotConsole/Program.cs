@@ -33,14 +33,17 @@ namespace BotConsole
                 Console.WriteLine("NO BOT TOKEN GIVEN IN PARAMETER!");
                 return;
             }
-            if (!ISDEBUG && (args.Length >= 2 || string.IsNullOrEmpty(args[1])))
+            if (!ISDEBUG)
             {
-                Console.WriteLine("NO DATABASE CONNECTION STRING! Falling back to sqlite!");
-                Console.WriteLine("Current args: ");
-                foreach (var item in args)
+                if (args.Length < 2 || string.IsNullOrEmpty(args[1]))
                 {
-                    Console.WriteLine(item);
-                }
+                    Console.WriteLine("NO DATABASE CONNECTION STRING! Falling back to sqlite!");
+                    Console.WriteLine("Current args: ");
+                    foreach (var item in args)
+                    {
+                        Console.WriteLine(item);
+                    }
+                }                
             }
 
             IHost host = Host.CreateDefaultBuilder(args)
