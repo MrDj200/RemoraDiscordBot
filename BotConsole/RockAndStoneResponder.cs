@@ -62,7 +62,7 @@ namespace BotConsole
             {
                 embed = new Embed
                 (
-                    Author: new EmbedAuthor("Mission Control", IconUrl: "https://deeprockgalactic.wiki.gg/images/d/d2/Mission_control_portrait.png"),
+                    //Author: new EmbedAuthor("Mission Control", IconUrl: "https://deeprockgalactic.wiki.gg/images/d/d2/Mission_control_portrait.png"),
                     Title: "Mushroom!",
                     Colour: Color.Brown
                 );
