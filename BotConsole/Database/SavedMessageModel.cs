@@ -11,11 +11,11 @@ namespace BotConsole.Database
     {
         [Key]
         public Guid ID { get; set; }
-        public string AuthorID { get; set; }
-        public string InvokerID { get; set; }
-        public string? GuildID { get; set; }
-        public string ChannelID { get; set; }
-        public string MessageID { get; set; }
+        public string AuthorID { get; set; } = null!;
+        public string InvokerID { get; set; } = null!;
+        public string GuildID { get; set; } = null!;
+        public string ChannelID { get; set; } = null!;
+        public string MessageID { get; set; } = null!;
 
         [NotMapped]
         public string MessageUrl => $"https://discord.com/channels/{GuildID}/{ChannelID}/{MessageID}";
@@ -31,8 +31,8 @@ namespace BotConsole.Database
             return new SavedMessageModel
             {
                 AuthorID = message.Author.ID.ToString(),
-                InvokerID = invokerID.ToString(),
-                GuildID = guildID.ToString(),
+                InvokerID = invokerID.ToString()!,
+                GuildID = guildID.ToString()!,
                 ChannelID = message.ChannelID.ToString(),
                 MessageID = message.ID.ToString()
             };
