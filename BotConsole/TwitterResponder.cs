@@ -43,7 +43,7 @@ namespace BotConsole
             return (Result)await _channelAPI.CreateMessageAsync
             (
                 gatewayEvent.ChannelID,
-                content: $"It's dangerous to go alone! Here, take this (better) embed: {match.Value.Replace("twitter.com", "fxtwitter.com")}",
+                content: $"It's dangerous to go alone! Here, take this (better) embed: {match.Value.Replace("twitter.com", "vxtwitter.com")}",
                 ct: ct
             );
         }
