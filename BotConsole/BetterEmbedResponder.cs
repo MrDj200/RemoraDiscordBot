@@ -13,6 +13,9 @@ namespace BotConsole
         private readonly IDiscordRestChannelAPI _channelAPI;
         private readonly ILogger<BetterEmbedResponder> _logger;
 
+        private readonly Regex _twitterRegex = new Regex(@"https?:\/\/(?:www\.)?twitter\.com\/\w+\/status\/\d+(\/photos\/\d)?", RegexOptions.Compiled);
+        private readonly Regex _tiktokRegex = new Regex(@"https?:\/\/(?:www\.)?tiktok.com\/@\w+\/video\/\d+", RegexOptions.Compiled);
+
         public BetterEmbedResponder(IDiscordRestChannelAPI channelAPI, ILogger<BetterEmbedResponder> logger)
         {
             _channelAPI = channelAPI;
@@ -21,32 +24,46 @@ namespace BotConsole
 
         public async Task<Result> RespondAsync(IMessageCreate gatewayEvent, CancellationToken ct = default)
         {
-            //if (gatewayEvent.Author.IsBot.HasValue && gatewayEvent.Author.IsBot.Value || gatewayEvent.WebhookID.HasValue)
-            if (gatewayEvent.Author.IsBot is { HasValue: true, Value: true} || gatewayEvent.WebhookID.HasValue)
+            if (gatewayEvent.Author.IsBot is { HasValue: true, Value: true } || gatewayEvent.WebhookID.HasValue)
             {
                 return Result.FromSuccess();
             }
 
-            var twitterMatch = Regex.Match(gatewayEvent.Content, @"https?:\/\/(?:www\.)?twitter\.com\/\w+\/status\/\d+(\/photos\/\d)?");
-            var tiktokMatch  = Regex.Match(gatewayEvent.Content, @"https?:\/\/(?:www\.)?tiktok.com\/@\w+\/video\/\d+");
-
-            if (!twitterMatch.Success)
+            var twitterMatch = _twitterRegex.Match(gatewayEvent.Content);
+            if (twitterMatch.Success)
             {
-                return Result.FromSuccess();
+                await Task.Delay(1000, ct); // Wait a second for slow twitter to get an embed
+
+                await _channelAPI.EditMessageAsync(gatewayEvent.ChannelID, gatewayEvent.ID, embeds: null, flags: MessageFlags.SuppressEmbeds); // Remove the original embed
+
+                _logger.LogInformation($"Converting twitter link {twitterMatch.Value}");
+
+                return (Result)await _channelAPI.CreateMessageAsync
+                (
+                    gatewayEvent.ChannelID,
+                    content: $"It's dangerous to go alone! Here, take this (better) embed: {twitterMatch.Value.Replace("twitter.com", "vxtwitter.com")}",
+                    ct: ct
+                );
+            }
+            var tiktokMatch = _tiktokRegex.Match(gatewayEvent.Content);
+            if (tiktokMatch.Success)
+            {
+                await Task.Delay(1000, ct); // Wait a second for slow tiktok to get an embed
+
+                await _channelAPI.EditMessageAsync(gatewayEvent.ChannelID, gatewayEvent.ID, embeds: null, flags: MessageFlags.SuppressEmbeds); // Remove the original embed
+
+                _logger.LogInformation($"Converting tiktok link {tiktokMatch.Value}");
+
+                return (Result)await _channelAPI.CreateMessageAsync
+                (
+                    gatewayEvent.ChannelID,
+                    content: $"It's dangerous to go alone! Here, take this (better) embed: {tiktokMatch.Value.Replace("tiktok.com", "vxtiktok.com")}",
+                    ct: ct
+                );
             }
 
-            await Task.Delay(1000, ct); // Wait a second for slow twitter to get an embed
+            return Result.FromSuccess();
 
-            await _channelAPI.EditMessageAsync(gatewayEvent.ChannelID, gatewayEvent.ID, embeds: null, flags: MessageFlags.SuppressEmbeds); // Remove the original embed
-
-            _logger.LogInformation($"Converting twitter link {twitterMatch.Value}");
-
-            return (Result)await _channelAPI.CreateMessageAsync
-            (
-                gatewayEvent.ChannelID,
-                content: $"It's dangerous to go alone! Here, take this (better) embed: {twitterMatch.Value.Replace("twitter.com", "vxtwitter.com")}",
-                ct: ct
-            );
         }
     }
 
