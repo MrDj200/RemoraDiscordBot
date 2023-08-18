@@ -8,12 +8,12 @@ using System.Text.RegularExpressions;
 
 namespace BotConsole
 {
-    public class TwitterResponder : IResponder<IMessageCreate>
+    public class BetterEmbedResponder : IResponder<IMessageCreate>
     {
         private readonly IDiscordRestChannelAPI _channelAPI;
-        private readonly ILogger<TwitterResponder> _logger;
+        private readonly ILogger<BetterEmbedResponder> _logger;
 
-        public TwitterResponder(IDiscordRestChannelAPI channelAPI, ILogger<TwitterResponder> logger)
+        public BetterEmbedResponder(IDiscordRestChannelAPI channelAPI, ILogger<BetterEmbedResponder> logger)
         {
             _channelAPI = channelAPI;
             _logger = logger;
@@ -27,9 +27,10 @@ namespace BotConsole
                 return Result.FromSuccess();
             }
 
-            var match = Regex.Match(gatewayEvent.Content, @"https?:\/\/twitter\.com\/\w+\/status\/\d+(\/photos\/\d)?");
+            var twitterMatch = Regex.Match(gatewayEvent.Content, @"https?:\/\/(?:www\.)?twitter\.com\/\w+\/status\/\d+(\/photos\/\d)?");
+            var tiktokMatch  = Regex.Match(gatewayEvent.Content, @"https?:\/\/(?:www\.)?tiktok.com\/@\w+\/video\/\d+");
 
-            if (!match.Success)
+            if (!twitterMatch.Success)
             {
                 return Result.FromSuccess();
             }
@@ -38,12 +39,12 @@ namespace BotConsole
 
             await _channelAPI.EditMessageAsync(gatewayEvent.ChannelID, gatewayEvent.ID, embeds: null, flags: MessageFlags.SuppressEmbeds); // Remove the original embed
 
-            _logger.LogInformation($"Converting twitter link {match.Value}");
+            _logger.LogInformation($"Converting twitter link {twitterMatch.Value}");
 
             return (Result)await _channelAPI.CreateMessageAsync
             (
                 gatewayEvent.ChannelID,
-                content: $"It's dangerous to go alone! Here, take this (better) embed: {match.Value.Replace("twitter.com", "vxtwitter.com")}",
+                content: $"It's dangerous to go alone! Here, take this (better) embed: {twitterMatch.Value.Replace("twitter.com", "vxtwitter.com")}",
                 ct: ct
             );
         }

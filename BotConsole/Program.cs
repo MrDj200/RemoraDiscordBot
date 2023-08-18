@@ -51,7 +51,7 @@ namespace BotConsole
                 {
                     services
                         .AddDiscordGateway(_ => _botToken)
-                        .AddResponder<TwitterResponder>()
+                        .AddResponder<BetterEmbedResponder>()
                         .AddResponder<RockAndStoneResponder>()
                         .AddSingleton<DRGMessageProvider>()
                         .Configure<DiscordGatewayClientOptions>(g => g.Intents |= GatewayIntents.MessageContents | GatewayIntents.GuildPresences)
