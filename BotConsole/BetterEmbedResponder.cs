@@ -14,7 +14,7 @@ namespace BotConsole
         private readonly ILogger<BetterEmbedResponder> _logger;
 
         private readonly Regex _twitterRegex = new Regex(@"https?:\/\/(?:www\.)?twitter\.com\/\w+\/status\/\d+(\/photos\/\d)?", RegexOptions.Compiled);
-        private readonly Regex _tiktokRegex = new Regex(@"https?:\/\/(?:www\.)?tiktok.com\/@\w+\/video\/\d+", RegexOptions.Compiled);
+        private readonly Regex _tiktokRegex = new Regex(@"https?:\/\/(?:www\.)?tiktok.com\/(@\w+\/video\/\d+|t\/\w+)", RegexOptions.Compiled);
 
         public BetterEmbedResponder(IDiscordRestChannelAPI channelAPI, ILogger<BetterEmbedResponder> logger)
         {
