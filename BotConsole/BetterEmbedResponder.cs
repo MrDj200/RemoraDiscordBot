@@ -13,7 +13,7 @@ namespace BotConsole
         private readonly IDiscordRestChannelAPI _channelAPI;
         private readonly ILogger<BetterEmbedResponder> _logger;
 
-        private readonly Regex _twitterRegex = new Regex(@"https?:\/\/(?:www\.)?twitter\.com\/\w+\/status\/\d+(\/photos\/\d)?", RegexOptions.Compiled);
+        private readonly Regex _twitterRegex = new Regex(@"https?:\/\/(?:www\.)?(x|twitter)\.com\/\w+\/status\/\d+(\/photos\/\d)?", RegexOptions.Compiled);
         private readonly Regex _tiktokRegex = new Regex(@"https?:\/\/(?:www\.)?tiktok.com\/(@\w+\/video\/\d+|t\/\w+)", RegexOptions.Compiled);
 
         public BetterEmbedResponder(IDiscordRestChannelAPI channelAPI, ILogger<BetterEmbedResponder> logger)
@@ -38,10 +38,13 @@ namespace BotConsole
 
                 _logger.LogInformation($"Converting twitter link {twitterMatch.Value}");
 
+                string replacedText = twitterMatch.Value.Replace("twitter.com", "vxtwitter.com");
+                replacedText = replacedText.Replace("x.com", "vxtwitter.com");
+
                 return (Result)await _channelAPI.CreateMessageAsync
                 (
                     gatewayEvent.ChannelID,
-                    content: $"It's dangerous to go alone! Here, take this (better) embed: {twitterMatch.Value.Replace("twitter.com", "vxtwitter.com")}",
+                    content: $"It's dangerous to go alone! Here, take this (better) embed: {replacedText}",
                     ct: ct
                 );
             }
