@@ -15,6 +15,7 @@ namespace BotConsole
 
         private readonly Regex _twitterRegex = new Regex(@"https?:\/\/(?:www\.)?(x|twitter)\.com\/\w+\/status\/\d+(\/photos\/\d)?", RegexOptions.Compiled);
         private readonly Regex _tiktokRegex = new Regex(@"https?:\/\/(?:www\.)?tiktok.com\/(@\w+\/video\/\d+|t\/\w+)", RegexOptions.Compiled);
+        private readonly Regex _tiktokVMRegex = new Regex(@"https?:\/\/(?:www\.)?vm.tiktok.com\/\w+", RegexOptions.Compiled);
         private readonly Regex _redditRegex = new Regex(@"https?:\/\/(?:www\.)?reddit.com\/r\/\w+\/[^\s]+", RegexOptions.Compiled);
 
         public BetterEmbedResponder(IDiscordRestChannelAPI channelAPI, ILogger<BetterEmbedResponder> logger)
@@ -78,6 +79,22 @@ namespace BotConsole
                 (
                     gatewayEvent.ChannelID,
                     content: $"It's dangerous to go alone! Here, take this (better) embed: {tiktokMatch.Value.Replace("tiktok.com", "vxtiktok.com")}",
+                    ct: ct
+                );
+            }
+            var tiktokVMMatch = _tiktokVMRegex.Match(gatewayEvent.Content);
+            if (tiktokVMMatch.Success)
+            {
+                await Task.Delay(1000, ct); // Wait a second for slow tiktok to get an embed
+
+                await _channelAPI.EditMessageAsync(gatewayEvent.ChannelID, gatewayEvent.ID, embeds: null, flags: MessageFlags.SuppressEmbeds); // Remove the original embed
+
+                _logger.LogInformation($"Converting tiktok link {tiktokVMMatch.Value}");
+
+                return (Result)await _channelAPI.CreateMessageAsync
+                (
+                    gatewayEvent.ChannelID,
+                    content: $"It's dangerous to go alone! Here, take this (better) embed: {tiktokVMMatch.Value.Replace("tiktok.com", "vxtiktok.com")}",
                     ct: ct
                 );
             }
