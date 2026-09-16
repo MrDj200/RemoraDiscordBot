@@ -40,8 +40,8 @@ namespace BotConsole
 
                 _logger.LogInformation($"Converting twitter link {twitterMatch.Value}");
 
-                string replacedText = twitterMatch.Value.Replace("twitter.com", "vxtwitter.com");
-                replacedText = replacedText.Replace("x.com", "vxtwitter.com");
+                string replacedText = twitterMatch.Value.Replace("twitter.com", "fixupx.com");
+                replacedText = replacedText.Replace("x.com", "fixupx.com");
 
                 return (Result)await _channelAPI.CreateMessageAsync
                 (
