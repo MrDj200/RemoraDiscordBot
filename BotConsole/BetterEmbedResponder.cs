@@ -79,7 +79,7 @@ namespace BotConsole
                 return (Result)await _channelAPI.CreateMessageAsync
                 (
                     gatewayEvent.ChannelID,
-                    content: $"It's dangerous to go alone! Here, take this (better) embed: {tiktokMatch.Value.Replace("tiktok.com", "vxtiktok.com")}",
+                    content: $"It's dangerous to go alone! Here, take this (better) embed: {tiktokMatch.Value.Replace("tiktok.com", "tnktok.com")}",
                     ct: ct
                 );
             }
@@ -95,7 +95,7 @@ namespace BotConsole
                 return (Result)await _channelAPI.CreateMessageAsync
                 (
                     gatewayEvent.ChannelID,
-                    content: $"It's dangerous to go alone! Here, take this (better) embed: {tiktokVMMatch.Value.Replace("tiktok.com", "vxtiktok.com")}",
+                    content: $"It's dangerous to go alone! Here, take this (better) embed: {tiktokVMMatch.Value.Replace("tiktok.com", "tnktok.com")}",
                     ct: ct
                 );
             }
