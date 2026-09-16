@@ -33,7 +33,7 @@ namespace BotConsole
                     Colour: Color.Purple
                 );
             }
-            else if (msg.Contains("nitra"))
+            else if (msg.Contains("nitra") && Random.Shared.NextDouble() < 0.2)
             {
                 embed = new Embed
                 (
@@ -50,7 +50,7 @@ namespace BotConsole
                     Thumbnail: new EmbedThumbnail("https://cdn.discordapp.com/emojis/587343470977351695.webp?size=1024&quality=lossless")
                 );
             }
-            else if (msg.Contains("stone"))
+            else if (msg.Contains("stone") && Random.Shared.NextDouble() < 0.2)
             {
                 embed = new Embed
                 (
@@ -58,7 +58,7 @@ namespace BotConsole
                     Colour: Color.Gray
                 );
             }
-            else if (msg.Contains("mushroom"))
+            else if (msg.Contains("mushroom") && Random.Shared.NextDouble() < 0.2)
             {
                 embed = new Embed
                 (
