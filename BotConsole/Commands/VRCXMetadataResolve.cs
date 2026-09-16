@@ -45,7 +45,7 @@ namespace BotConsole.Commands
             var worldsWithLinks = tasks.Where(x => x.Result != null).GroupBy(x => x.Result?.id).Select(x => $"[{x.First().Result?.name}](https://vrchat.com/home/world/{x.First().Result?.id})");
 
             string messageUrl = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-            if (_context.TryGetGuildID(out Snowflake? GuildID))
+            if (_context.TryGetGuildID(out Snowflake GuildID))
             {
                 messageUrl = $"https://discord.com/channels/{GuildID}/{message.ChannelID}/{message.ID}";
             }

@@ -54,7 +54,7 @@ namespace BotConsole
                         .AddResponder<BetterEmbedResponder>()
                         .AddResponder<RockAndStoneResponder>()
                         .AddSingleton<DRGMessageProvider>()
-                        .Configure<DiscordGatewayClientOptions>(g => g.Intents |= GatewayIntents.MessageContents | GatewayIntents.GuildPresences)
+                        .Configure<DiscordGatewayClientOptions>(g => g.Intents |= GatewayIntents.MessageContent | GatewayIntents.GuildPresences)
                         .AddSingleton<HttpClient>()
                         .AddLogging(loggingBuilder =>
                         {

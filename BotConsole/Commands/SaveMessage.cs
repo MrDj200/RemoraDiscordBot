@@ -56,9 +56,9 @@ namespace BotConsole.Commands
         [Ephemeral]
         public async Task<IResult> RetrieveSavedMessages()
         {
-            _interactionContext.TryGetUserID(out Snowflake? userID);
+            _interactionContext.TryGetUserID(out Snowflake userID);
 
-            return await RetrieveSavedMessagesOf(new PartialUser() { ID = userID.AsOptional() });
+            return await RetrieveSavedMessagesOf(new PartialUser() { ID = userID });
             //var messages = await _dbContext.SavedMessages.Where(x => x.InvokerID == userID.ToString()).ToListAsync();
             //StringBuilder sb = new();
             //int i = 0;
@@ -100,7 +100,7 @@ namespace BotConsole.Commands
         [Ephemeral]
         public async Task<IResult> DropAllMessages()
         {
-            _interactionContext.TryGetUserID(out Snowflake? userID);
+            _interactionContext.TryGetUserID(out Snowflake userID);
             var messages = await _dbContext.SavedMessages.Where(x => x.InvokerID == userID.ToString()).ToListAsync();
             _dbContext.SavedMessages.RemoveRange(messages);
             var number = await _dbContext.SaveChangesAsync();

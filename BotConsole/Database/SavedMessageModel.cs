@@ -22,8 +22,8 @@ namespace BotConsole.Database
 
         public static SavedMessageModel FromMessage(IMessage message, IInteractionContext interactionContext)
         {
-            interactionContext.TryGetGuildID(out Snowflake? guildID);
-            if (!interactionContext.TryGetUserID(out Snowflake? invokerID) || invokerID == null)
+            interactionContext.TryGetGuildID(out Snowflake guildID);
+            if (!interactionContext.TryGetUserID(out Snowflake invokerID) || invokerID == null)
             {
                 throw new Exception("Could not get InvokerID in a command. Doesn't make sense");
             }

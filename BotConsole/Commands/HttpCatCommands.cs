@@ -43,7 +43,7 @@ namespace BotConsole.Commands
         {
             var context = _contextInjection.Context;
             string ugh;
-            Snowflake? ChannelID, UserID, GuildID;
+            Snowflake ChannelID, UserID, GuildID;
             if (context != null && context.TryGetChannelID(out ChannelID) && context.TryGetGuildID(out GuildID) && context.TryGetUserID(out UserID))
             {
                 ugh = $"DEBUG\nUser: <@{UserID.Value}>\nGuild: {GuildID}\nChannel: <#{ChannelID}>\nTarget: {message.ID}";
@@ -66,7 +66,7 @@ namespace BotConsole.Commands
             //return (Result)await _feedbackService.SendContextualMessageAsync(msg, options: opt);
             var context = _contextInjection.Context;
             string ugh;
-            Snowflake? ChannelID, UserID, GuildID;
+            Snowflake ChannelID, UserID, GuildID;
             if (context != null && context.TryGetChannelID(out ChannelID) && context.TryGetGuildID(out GuildID) && context.TryGetUserID(out UserID))
             {
                 ugh = $"DEBUG\nUser: <@{UserID.Value}>\nGuild: {GuildID}\nChannel: <#{ChannelID}>\nTarget: <@{user.ID}>";
