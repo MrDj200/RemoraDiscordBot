@@ -51,7 +51,8 @@ namespace BotConsole
                 );
             }
             var redditMatch = _redditRegex.Match(gatewayEvent.Content);
-            if (redditMatch.Success)
+            var enableReddit = false; // Whether or not reddit links should be replaced
+            if (enableReddit && redditMatch.Success)
             {
                 await Task.Delay(1000, ct); // Wait a second for slow tiktok to get an embed
 
