@@ -111,7 +111,8 @@ namespace BotConsole
                 return (Result)await _channelAPI.CreateMessageAsync
                 (
                     gatewayEvent.ChannelID,
-                    content: $"It's dangerous to go alone! Here, take this (better) embed: {ytShortsMatch.Value.Replace("youtube.com", "koutube.com")}?shorts",
+                    //content: $"It's dangerous to go alone! Here, take this (better) embed: {ytShortsMatch.Value.Replace("youtube.com", "koutube.com")}?shorts",
+                    content: $"{ytShortsMatch.Value.Replace("youtube.com", "koutube.com")}?shorts",
                     ct: ct
                 );
             }
