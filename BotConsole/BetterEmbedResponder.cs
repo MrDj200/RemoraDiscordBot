@@ -17,6 +17,7 @@ namespace BotConsole
         private readonly Regex _tiktokRegex = new Regex(@"https?:\/\/(?:www\.)?tiktok.com\/(@\w+\/video\/\d+|t\/\w+)", RegexOptions.Compiled);
         private readonly Regex _tiktokVMRegex = new Regex(@"https?:\/\/(?:www\.)?vm.tiktok.com\/\w+", RegexOptions.Compiled);
         private readonly Regex _redditRegex = new Regex(@"https?:\/\/(?:www\.)?reddit.com\/r\/\w+\/[^\s]+", RegexOptions.Compiled);
+        private readonly Regex _ytShortsRegex = new Regex(@"https?:\/\/(?:www\.)?youtube.com\/shorts\/\w+", RegexOptions.Compiled);
 
         public BetterEmbedResponder(IDiscordRestChannelAPI channelAPI, ILogger<BetterEmbedResponder> logger)
         {
@@ -99,6 +100,20 @@ namespace BotConsole
                     ct: ct
                 );
             }
+            var ytShortsMatch = _ytShortsRegex.Match(gatewayEvent.Content);
+            if (ytShortsMatch.Success) 
+            {
+                await Task.Delay(500, ct); // Wait a bit for slow yt to get an embed
+                await _channelAPI.EditMessageAsync(gatewayEvent.ChannelID, gatewayEvent.ID, embeds: null, flags: MessageFlags.SuppressEmbeds); // Remove the original embed
+                _logger.LogInformation($"Converting yt shorts link {ytShortsMatch.Value}");
+                return (Result)await _channelAPI.CreateMessageAsync
+                (
+                    gatewayEvent.ChannelID,
+                    content: $"It's dangerous to go alone! Here, take this (better) embed: {ytShortsMatch.Value.Replace("youtube.com", "koutube.com")}?shorts",
+                    ct: ct
+                );
+            }
+
 
             return Result.FromSuccess();
 
