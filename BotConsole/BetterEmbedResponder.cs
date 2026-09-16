@@ -104,7 +104,9 @@ namespace BotConsole
             if (ytShortsMatch.Success) 
             {
                 await Task.Delay(500, ct); // Wait a bit for slow yt to get an embed
-                await _channelAPI.EditMessageAsync(gatewayEvent.ChannelID, gatewayEvent.ID, embeds: null, flags: MessageFlags.SuppressEmbeds); // Remove the original embed
+                var editResult = await _channelAPI.EditMessageAsync(gatewayEvent.ChannelID, gatewayEvent.ID, embeds: null, flags: MessageFlags.SuppressEmbeds); // Remove the original embed
+                _logger.LogInformation($"Edit result: {editResult.IsSuccess} - {editResult.Error?.Message}");
+
                 _logger.LogInformation($"Converting yt shorts link {ytShortsMatch.Value}");
                 return (Result)await _channelAPI.CreateMessageAsync
                 (
