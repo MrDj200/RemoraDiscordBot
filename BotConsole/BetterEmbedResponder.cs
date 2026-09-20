@@ -52,10 +52,10 @@ namespace BotConsole
                 );
             }
             var redditMatch = _redditRegex.Match(gatewayEvent.Content);
-            var enableReddit = false; // Whether or not reddit links should be replaced
+            var enableReddit = true; // Whether or not reddit links should be replaced
             if (enableReddit && redditMatch.Success)
             {
-                await Task.Delay(1000, ct); // Wait a second for slow tiktok to get an embed
+                await Task.Delay(500, ct); // Wait a second for slow tiktok to get an embed
 
                 await _channelAPI.EditMessageAsync(gatewayEvent.ChannelID, gatewayEvent.ID, embeds: null, flags: MessageFlags.SuppressEmbeds); // Remove the original embed
 
@@ -64,7 +64,7 @@ namespace BotConsole
                 return (Result)await _channelAPI.CreateMessageAsync
                 (
                     gatewayEvent.ChannelID,
-                    content: $"It's dangerous to go alone! Here, take this (better) embed: {redditMatch.Value.Replace("reddit.com", "rxddit.com")}",
+                    content: $"It's dangerous to go alone! Here, take this (better) embed: {redditMatch.Value.Replace("reddit.com", "vxreddit.com")}",
                     ct: ct
                 );
             }
