@@ -17,7 +17,7 @@ namespace BotConsole
         private readonly Regex _tiktokRegex = new Regex(@"https?:\/\/(?:www\.)?tiktok.com\/(@\w+\/video\/\d+|t\/\w+)", RegexOptions.Compiled);
         private readonly Regex _tiktokVMRegex = new Regex(@"https?:\/\/(?:www\.)?vm.tiktok.com\/\w+", RegexOptions.Compiled);
         private readonly Regex _redditRegex = new Regex(@"https?:\/\/(?:www\.)?reddit.com\/r\/\w+\/[^\s]+", RegexOptions.Compiled);
-        private readonly Regex _ytShortsRegex = new Regex(@"https?:\/\/(?:www\.)?youtube.com\/shorts\/\w+", RegexOptions.Compiled);
+        private readonly Regex _ytShortsRegex = new Regex(@"https?:\/\/(?:www\.)?youtube.com\/shorts\/(\w|-)", RegexOptions.Compiled);
 
         public BetterEmbedResponder(IDiscordRestChannelAPI channelAPI, ILogger<BetterEmbedResponder> logger)
         {
